@@ -1,0 +1,44 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class SeguirJugador : MonoBehaviour
+{
+    public Transform jugador;
+    UnityEngine.AI.NavMeshAgent enemigo;
+    private bool dentro = false;
+
+    void Start()
+    {
+        enemigo = GetComponent<UnityEngine.AI.NavMeshAgent>();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            dentro = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            dentro = false;
+        }
+    }
+
+    void Update()
+    {
+        if(!dentro)
+        {
+            enemigo.destination = jugador.position;
+        }
+
+        if(dentro)
+        {
+            enemigo.destination = this.transform.position;
+        }
+    }
+}
